@@ -1,20 +1,32 @@
-# This file exists to create the SQLite database as used by the Code-Review-Cupid project
+# This file exists to create/fetch the SQLite database as used by the Code-Review-Cupid project
 
 import sqlite3
+import os
 
-conn = sqlite3.connect('CRC_user_database')
-c = conn.cursor()
+from matplotlib.pyplot import connect
 
-# Create database with list values of given types
-c.execute('''
-          CREATE TABLE IF NOT EXISTS user_data
-          ([user_id] INTEGER PRIMARY KEY, [user_name] TEXT,
-           [user_email] TEXT, [user_skills_per] TEXT, 
-           [user_skills_req] TEXT, [user_score] REAL)
-          ''')
+def make_database():
+    conn = sqlite3.connect('CRC_user_database')
+    c = conn.cursor()
 
-# Save changes
-conn.commit()
+    # Create database with list values of given types
+    c.execute('''
+            CREATE TABLE IF NOT EXISTS user_data
+            ([user_id] INTEGER PRIMARY KEY, [user_name] TEXT,
+            [user_email] TEXT, [user_skills_per] TEXT, 
+            [user_skills_req] TEXT, [user_score] REAL)
+            ''')
 
-# Close connection to database
-conn.close()
+    # Save changes
+    conn.commit()
+
+    # Close connection to database
+    conn.close()
+
+def get_database():
+    # If database does not exist, create
+    if not os.path.isfile('CRC_user_database'): 
+        make_database()
+    # Return database connection
+    conn = sqlite3.connect('CRC_user_database')
+    return conn
