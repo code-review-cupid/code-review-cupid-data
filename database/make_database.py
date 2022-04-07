@@ -12,7 +12,7 @@ def make_database():
     # Create database with list values of given types
     c.execute('''
             CREATE TABLE IF NOT EXISTS user_data
-            ([user_id] INTEGER PRIMARY KEY, [user_name] TEXT,
+            ([user_id] INTEGER PRIMARY KEY UNIQUE, [user_name] TEXT,
             [user_email] TEXT, [user_skills_per] TEXT, 
             [user_skills_req] TEXT, [user_score] REAL)
             ''')
